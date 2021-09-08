@@ -22,11 +22,15 @@ class BookService(
     fun findById(id: Int): BookModel =
         bookRepository.findById(id).orElseThrow()
 
+    fun update(book: BookModel) {
+        bookRepository.save(book)
+    }
+
     fun delete(id: Int) {
         val book = findById(id);
 
         book.status = BookStatus.CANCELED
-        bookRepository.save(book)
+        update(book)
     }
 
 }

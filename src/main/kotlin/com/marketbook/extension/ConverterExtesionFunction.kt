@@ -2,6 +2,7 @@ package com.marketbook.extension
 
 import com.marketbook.controller.request.PostBookRequest
 import com.marketbook.controller.request.PostCustomerRequest
+import com.marketbook.controller.request.PutBookRequest
 import com.marketbook.controller.request.PutCustomerRequest
 import com.marketbook.enums.BookStatus
 import com.marketbook.model.BookModel
@@ -19,5 +20,15 @@ fun PostBookRequest.toBookModel(customer: CustomerModel): BookModel {
         price = this.price,
         status = BookStatus.ACTIVE,
         customer = customer
+    )
+}
+
+fun PutBookRequest.toBookModel(previousBook: BookModel): BookModel {
+    return BookModel(
+        id = previousBook.id,
+        name = this.name ?: previousBook.name,
+        price = this.price ?: previousBook.price,
+        status = previousBook.status,
+        customer = previousBook.customer
     )
 }

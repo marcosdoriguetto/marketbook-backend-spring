@@ -1,6 +1,7 @@
 package com.marketbook.controller
 
 import com.marketbook.controller.request.PostBookRequest
+import com.marketbook.controller.request.PutBookRequest
 import com.marketbook.extension.toBookModel
 import com.marketbook.model.BookModel
 import com.marketbook.service.BookService
@@ -33,7 +34,14 @@ class BookController(
         bookService.create(request.toBookModel(customer))
     }
 
-    @DeleteMapping
+    @PutMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    fun updateBook(@PathVariable id: Int, @RequestBody book: PutBookRequest) {
+        val bookSaved = bookService.findById(id)
+        bookService.update(book.toBookModel(bookSaved))
+    }
+
+    @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     fun deleteBook(@PathVariable id: Int) =
         bookService.delete(id)
