@@ -3,6 +3,7 @@ package com.marketbook.controller
 import com.marketbook.controller.request.PostCustomerRequest
 import com.marketbook.controller.request.PutCustomerRequest
 import com.marketbook.extension.toCustomerModel
+import com.marketbook.model.BookModel
 import com.marketbook.model.CustomerModel
 import com.marketbook.service.CustomerService
 import org.springframework.http.HttpStatus

@@ -5,4 +5,4 @@ spring:
   datasource:
     url: jdbc:mysql://localhost:3306/marketbook?createDatabaseIfNotExist=true
     username: root
-    password: 88237254
+    password: root
