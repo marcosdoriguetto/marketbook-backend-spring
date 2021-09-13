@@ -3,6 +3,7 @@ package com.marketbook.service
 import com.marketbook.controller.request.PostCustomerRequest
 import com.marketbook.controller.request.PutCustomerRequest
 import com.marketbook.model.CustomerModel
+import com.marketbook.repository.BookRepository
 import com.marketbook.repository.CustomerRepository
 import org.springframework.stereotype.Service
 import org.springframework.web.bind.annotation.PathVariable
@@ -11,7 +12,8 @@ import org.springframework.web.bind.annotation.RequestParam
 
 @Service
 class CustomerService(
-    val customerRepository: CustomerRepository
+    val customerRepository: CustomerRepository,
+    val bookService: BookService
 ) {
     //GET
     fun getAll(name: String?): List<CustomerModel> {
@@ -39,10 +41,9 @@ class CustomerService(
 
     //DELETE
     fun deleteCustomer(id: Int) {
-        if(!customerRepository.existsById(id!!)) {
-            throw Exception()
-        }
+        val customer = getCustomerById(id)
 
-        customerRepository.deleteById(id)
+        bookService.deleteByCustomer(customer)
+        //customerRepository.deleteById(id)
     }
 }

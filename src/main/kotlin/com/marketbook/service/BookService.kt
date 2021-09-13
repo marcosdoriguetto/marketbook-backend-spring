@@ -2,9 +2,9 @@ package com.marketbook.service
 
 import com.marketbook.enums.BookStatus
 import com.marketbook.model.BookModel
+import com.marketbook.model.CustomerModel
 import com.marketbook.repository.BookRepository
 import org.springframework.stereotype.Service
-import java.awt.print.Book
 
 @Service
 class BookService(
@@ -33,4 +33,12 @@ class BookService(
         update(book)
     }
 
+    fun deleteByCustomer(customer: CustomerModel) {
+        val books: List<BookModel> = bookRepository.findByCustomer(customer)
+        for(book in books) {
+            book.status = BookStatus.DELETED
+        }
+
+        bookRepository.saveAll(books)
+    }
 }

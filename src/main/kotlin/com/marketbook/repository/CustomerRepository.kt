@@ -1,5 +1,6 @@
 package com.marketbook.repository
 
+import com.marketbook.model.BookModel
 import com.marketbook.model.CustomerModel
 import org.springframework.data.repository.CrudRepository
 
