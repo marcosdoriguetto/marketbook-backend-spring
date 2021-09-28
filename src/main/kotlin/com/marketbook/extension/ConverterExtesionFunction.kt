@@ -4,6 +4,8 @@ import com.marketbook.controller.request.PostBookRequest
 import com.marketbook.controller.request.PostCustomerRequest
 import com.marketbook.controller.request.PutBookRequest
 import com.marketbook.controller.request.PutCustomerRequest
+import com.marketbook.controller.response.BookResponse
+import com.marketbook.controller.response.CustomerResponse
 import com.marketbook.enums.BookStatus
 import com.marketbook.enums.CustomerStatus
 import com.marketbook.model.BookModel
@@ -31,5 +33,24 @@ fun PutBookRequest.toBookModel(previousBook: BookModel): BookModel {
         price = this.price ?: previousBook.price,
         status = previousBook.status,
         customer = previousBook.customer
+    )
+}
+
+fun CustomerModel.toResponse(): CustomerResponse {
+    return CustomerResponse(
+        id = this.id,
+        name = this.name,
+        email = this.email,
+        status = this.status
+    )
+}
+
+fun BookModel.toResponse(): BookResponse {
+    return BookResponse(
+        id = this.id,
+        name = this.name,
+        price = this.price,
+        customer = this.customer,
+        status = this.status
     )
 }

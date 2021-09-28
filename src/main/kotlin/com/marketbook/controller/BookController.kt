@@ -2,7 +2,9 @@ package com.marketbook.controller
 
 import com.marketbook.controller.request.PostBookRequest
 import com.marketbook.controller.request.PutBookRequest
+import com.marketbook.controller.response.BookResponse
 import com.marketbook.extension.toBookModel
+import com.marketbook.extension.toResponse
 import com.marketbook.model.BookModel
 import com.marketbook.service.BookService
 import com.marketbook.service.CustomerService
@@ -17,16 +19,16 @@ class BookController(
     val customerService: CustomerService
 ) {
     @GetMapping
-    fun findAllBooks(@RequestParam name: String?): List<BookModel> =
-        bookService.findAll(name)
+    fun findAllBooks(@RequestParam name: String?): List<BookResponse> =
+        bookService.findAll(name).map{ it.toResponse() }
 
     @GetMapping("/actives")
-    fun findActivesBooks(): List<BookModel> =
-        bookService.findAllActivesBooks()
+    fun findActivesBooks(): List<BookResponse> =
+        bookService.findAllActivesBooks().map{ it.toResponse() }
 
     @GetMapping("/{id}")
-    fun findBookById(@PathVariable id: Int): BookModel =
-        bookService.findById(id)
+    fun findBookById(@PathVariable id: Int): BookResponse =
+        bookService.findById(id).toResponse()
 
     @PostMapping
     fun createBook(@RequestBody request: PostBookRequest) {

@@ -2,9 +2,9 @@ package com.marketbook.controller
 
 import com.marketbook.controller.request.PostCustomerRequest
 import com.marketbook.controller.request.PutCustomerRequest
+import com.marketbook.controller.response.CustomerResponse
 import com.marketbook.extension.toCustomerModel
-import com.marketbook.model.BookModel
-import com.marketbook.model.CustomerModel
+import com.marketbook.extension.toResponse
 import com.marketbook.service.CustomerService
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
@@ -15,12 +15,13 @@ class CustomerController(
     val customerService: CustomerService
 ) {
     @GetMapping
-    fun getAll(@RequestParam name: String?): List<CustomerModel> =
-         customerService.getAll(name)
+    fun getAll(@RequestParam name: String?): List<CustomerResponse> {
+        return customerService.getAll(name).map{ it.toResponse() }
+    }
 
     @GetMapping("/{id}")
-    fun getCustomer(@PathVariable id: Int): CustomerModel =
-        customerService.getCustomerById(id)
+    fun getCustomer(@PathVariable id: Int): CustomerResponse =
+        customerService.getCustomerById(id).toResponse()
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
@@ -33,7 +34,6 @@ class CustomerController(
         val customerSaved = customerService.getCustomerById(id)
         customerService.updateCustomer(customer.toCustomerModel(customerSaved))
     }
-
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
