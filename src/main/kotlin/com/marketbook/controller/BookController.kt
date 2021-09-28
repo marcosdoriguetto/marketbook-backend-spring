@@ -17,8 +17,8 @@ class BookController(
     val customerService: CustomerService
 ) {
     @GetMapping
-    fun findAllBooks(): List<BookModel> =
-        bookService.findAll()
+    fun findAllBooks(@RequestParam name: String?): List<BookModel> =
+        bookService.findAll(name)
 
     @GetMapping("/actives")
     fun findActivesBooks(): List<BookModel> =

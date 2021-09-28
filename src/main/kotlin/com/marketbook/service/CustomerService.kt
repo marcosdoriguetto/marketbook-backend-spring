@@ -2,6 +2,7 @@ package com.marketbook.service
 
 import com.marketbook.controller.request.PostCustomerRequest
 import com.marketbook.controller.request.PutCustomerRequest
+import com.marketbook.enums.CustomerStatus
 import com.marketbook.model.CustomerModel
 import com.marketbook.repository.BookRepository
 import com.marketbook.repository.CustomerRepository
@@ -44,6 +45,7 @@ class CustomerService(
         val customer = getCustomerById(id)
 
         bookService.deleteByCustomer(customer)
-        //customerRepository.deleteById(id)
+        customer.status = CustomerStatus.INACTIVE
+        customerRepository.save(customer)
     }
 }

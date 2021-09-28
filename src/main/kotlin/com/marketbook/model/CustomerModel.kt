@@ -1,5 +1,6 @@
 package com.marketbook.model
 
+import com.marketbook.enums.CustomerStatus
 import javax.persistence.*
 
 @Entity(name = "customer")
@@ -10,5 +11,8 @@ data class CustomerModel(
     @Column
     var name: String,
     @Column
-    var email: String
+    var email: String,
+    @Column
+    @Enumerated(EnumType.STRING)
+    var status: CustomerStatus
 )

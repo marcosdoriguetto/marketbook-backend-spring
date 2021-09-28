@@ -13,8 +13,13 @@ class BookService(
     fun create(book: BookModel) =
         bookRepository.save(book)
 
-    fun findAll(): List<BookModel> =
-        bookRepository.findAll().toList()
+    fun findAll(name: String?): List<BookModel> {
+        name?.let{
+            return bookRepository.findByNameContaining(it)
+        }
+
+        return bookRepository.findAll().toList()
+    }
 
     fun findAllActivesBooks(): List<BookModel> =
         bookRepository.findByStatus(BookStatus.ACTIVE)
