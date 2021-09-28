@@ -5,12 +5,13 @@ import com.marketbook.controller.request.PutBookRequest
 import com.marketbook.controller.response.BookResponse
 import com.marketbook.extension.toBookModel
 import com.marketbook.extension.toResponse
-import com.marketbook.model.BookModel
 import com.marketbook.service.BookService
 import com.marketbook.service.CustomerService
+import org.springframework.data.domain.Page
+import org.springframework.data.web.PageableDefault
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
-import java.awt.print.Book
+import org.springframework.data.domain.Pageable
 
 @RestController
 @RequestMapping("books")
@@ -19,8 +20,8 @@ class BookController(
     val customerService: CustomerService
 ) {
     @GetMapping
-    fun findAllBooks(@RequestParam name: String?): List<BookResponse> =
-        bookService.findAll(name).map{ it.toResponse() }
+    fun findAllBooks(@PageableDefault(page = 0, size = 10) pageable: Pageable, @RequestParam name: String?): Page<BookResponse> =
+        bookService.findAll(pageable, name).map{ it.toResponse() }
 
     @GetMapping("/actives")
     fun findActivesBooks(): List<BookResponse> =
