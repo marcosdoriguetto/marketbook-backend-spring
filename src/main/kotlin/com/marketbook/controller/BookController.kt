@@ -24,8 +24,8 @@ class BookController(
         bookService.findAll(pageable, name).map{ it.toResponse() }
 
     @GetMapping("/actives")
-    fun findActivesBooks(): List<BookResponse> =
-        bookService.findAllActivesBooks().map{ it.toResponse() }
+    fun findActivesBooks(@PageableDefault(page = 0, size = 10) pageable: Pageable): Page<BookResponse> =
+        bookService.findAllActivesBooks(pageable).map{ it.toResponse() }
 
     @GetMapping("/{id}")
     fun findBookById(@PathVariable id: Int): BookResponse =

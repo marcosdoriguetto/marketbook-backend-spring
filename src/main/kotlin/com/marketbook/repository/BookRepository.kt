@@ -8,7 +8,7 @@ import org.springframework.data.repository.CrudRepository
 import org.springframework.data.domain.Pageable
 
 interface BookRepository: CrudRepository<BookModel, Int> {
-    fun findByStatus(status: BookStatus): List<BookModel>
+    fun findByStatus(pageable: Pageable, status: BookStatus): Page<BookModel>
     fun findByCustomer(customer: CustomerModel): List<BookModel>
     fun findByNameContaining(pageable: Pageable, name: String): Page<BookModel>
 
