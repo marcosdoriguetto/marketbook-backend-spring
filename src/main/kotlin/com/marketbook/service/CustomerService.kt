@@ -3,6 +3,7 @@ package com.marketbook.service
 import com.marketbook.controller.request.PostCustomerRequest
 import com.marketbook.controller.request.PutCustomerRequest
 import com.marketbook.enums.CustomerStatus
+import com.marketbook.exception.NotFoundException
 import com.marketbook.model.CustomerModel
 import com.marketbook.repository.BookRepository
 import com.marketbook.repository.CustomerRepository
@@ -25,7 +26,7 @@ class CustomerService(
     }
 
     fun getCustomerById(id: Int): CustomerModel =
-        customerRepository.findById(id).orElseThrow()
+        customerRepository.findById(id).orElseThrow{ NotFoundException("Customer not exists. Id customer: $id", "MB-0002") }
 
     //POST
     fun createCustomer(customer: CustomerModel) =
