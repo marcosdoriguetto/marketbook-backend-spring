@@ -1,6 +1,7 @@
 package com.marketbook.service
 
 import com.marketbook.enums.BookStatus
+import com.marketbook.enums.Errors
 import com.marketbook.exception.NotFoundException
 import com.marketbook.model.BookModel
 import com.marketbook.model.CustomerModel
@@ -28,7 +29,7 @@ class BookService(
         bookRepository.findByStatus(pageable, BookStatus.ACTIVE)
 
     fun findById(id: Int): BookModel =
-        bookRepository.findById(id).orElseThrow{NotFoundException("Book not exists. Id book: $id", "MB-0001")}
+        bookRepository.findById(id).orElseThrow{NotFoundException(Errors.ML101.message.format(id), Errors.ML101.code)}
 
     fun update(book: BookModel) {
         bookRepository.save(book)

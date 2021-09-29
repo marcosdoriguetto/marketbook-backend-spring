@@ -1,16 +1,11 @@
 package com.marketbook.service
 
-import com.marketbook.controller.request.PostCustomerRequest
-import com.marketbook.controller.request.PutCustomerRequest
 import com.marketbook.enums.CustomerStatus
+import com.marketbook.enums.Errors
 import com.marketbook.exception.NotFoundException
 import com.marketbook.model.CustomerModel
-import com.marketbook.repository.BookRepository
 import com.marketbook.repository.CustomerRepository
 import org.springframework.stereotype.Service
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestParam
 
 @Service
 class CustomerService(
@@ -26,7 +21,7 @@ class CustomerService(
     }
 
     fun getCustomerById(id: Int): CustomerModel =
-        customerRepository.findById(id).orElseThrow{ NotFoundException("Customer not exists. Id customer: $id", "MB-0002") }
+        customerRepository.findById(id).orElseThrow{ NotFoundException(Errors.ML201.message.format(id), Errors.ML201.code) }
 
     //POST
     fun createCustomer(customer: CustomerModel) =
