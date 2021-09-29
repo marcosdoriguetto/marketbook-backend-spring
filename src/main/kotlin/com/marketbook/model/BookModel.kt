@@ -1,6 +1,8 @@
 package com.marketbook.model
 
 import com.marketbook.enums.BookStatus
+import com.marketbook.enums.Errors
+import com.marketbook.exception.BadRequestException
 import java.math.BigDecimal
 import javax.persistence.*
 
@@ -22,7 +24,7 @@ data class BookModel(
     var status: BookStatus? = null
         set(value) {
             if(field == BookStatus.DELETED || field == BookStatus.CANCELED) {
-                throw Exception("Status value '${field}' is invalid.")
+                throw BadRequestException(Errors.ML102.message.format(field), Errors.ML102.code)
             }
 
             field = value
