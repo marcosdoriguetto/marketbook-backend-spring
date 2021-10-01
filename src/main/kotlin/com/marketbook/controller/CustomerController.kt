@@ -8,6 +8,7 @@ import com.marketbook.extension.toResponse
 import com.marketbook.service.CustomerService
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
+import javax.validation.Valid
 
 @RestController
 @RequestMapping("customers")
@@ -25,12 +26,12 @@ class CustomerController(
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    fun createCustomer(@RequestBody customer: PostCustomerRequest) =
+    fun createCustomer(@RequestBody @Valid customer: PostCustomerRequest) =
         customerService.createCustomer(customer.toCustomerModel())
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    fun updateCustomer(@PathVariable id: Int, @RequestBody customer: PutCustomerRequest) {
+    fun updateCustomer(@PathVariable id: Int, @RequestBody @Valid customer: PutCustomerRequest) {
         val customerSaved = customerService.getCustomerById(id)
         customerService.updateCustomer(customer.toCustomerModel(customerSaved))
     }
