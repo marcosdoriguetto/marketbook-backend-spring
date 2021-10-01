@@ -1,5 +1,6 @@
 package com.marketbook.model
 
+import com.fasterxml.jackson.annotation.JsonProperty
 import com.marketbook.enums.BookStatus
 import com.marketbook.enums.Errors
 import com.marketbook.exception.BadRequestException
