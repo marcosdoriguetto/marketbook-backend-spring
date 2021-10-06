@@ -1,4 +1,4 @@
-create table book(
+create table IF NOT EXISTS book(
     id int auto_increment primary key,
     name varchar(255) not null,
     price decimal(10, 2) not null,

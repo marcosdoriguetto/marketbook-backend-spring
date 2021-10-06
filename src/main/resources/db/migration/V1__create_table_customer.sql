@@ -1,4 +1,4 @@
-create table customer(
+create table IF NOT EXISTS customer(
     id int auto_increment primary key,
     name varchar(255) not null,
     email varchar(255) not null unique
