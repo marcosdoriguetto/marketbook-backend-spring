@@ -2,6 +2,7 @@ package com.marketbook.controller.request
 
 import com.fasterxml.jackson.annotation.JsonAlias
 import com.marketbook.model.BookModel
+import javax.validation.constraints.NotEmpty
 import javax.validation.constraints.NotNull
 import javax.validation.constraints.Positive
 
@@ -10,6 +11,7 @@ data class PostPurchaseRequest(
     @field:Positive
     @JsonAlias("customer_id")
     var customerId: Int,
+    @field: NotEmpty
     @field: NotNull
     @JsonAlias("book_ids")
     var booksIds: Set<Int>

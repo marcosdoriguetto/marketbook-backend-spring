@@ -13,7 +13,7 @@ data class PurchaseModel(
     @JoinColumn(name = "customer_id")
     val customer: CustomerModel,
     @ManyToMany
-    @JoinTable(name = "puchase_book",
+    @JoinTable(name = "purchase_book",
         joinColumns = [JoinColumn(name = "purchase_id")],
         inverseJoinColumns = [JoinColumn(name = "book_id")]
     )
