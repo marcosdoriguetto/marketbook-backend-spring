@@ -6,12 +6,15 @@ import com.marketbook.enums.Profile
 import com.marketbook.exception.NotFoundException
 import com.marketbook.model.CustomerModel
 import com.marketbook.repository.CustomerRepository
+import org.springframework.security.crypto.bcrypt.BCrypt
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.stereotype.Service
 
 @Service
 class CustomerService(
-    val customerRepository: CustomerRepository,
-    val bookService: BookService
+    private val customerRepository: CustomerRepository,
+    private val bookService: BookService,
+    private val bCrypt: BCryptPasswordEncoder
 ) {
     //GET
     fun getAll(name: String?): List<CustomerModel> {
@@ -27,7 +30,8 @@ class CustomerService(
     //POST
     fun createCustomer(customer: CustomerModel): CustomerModel {
         val customerSaved = customer.copy(
-            roles = setOf(Profile.CUSTOMER)
+            roles = setOf(Profile.CUSTOMER),
+            password = bCrypt.encode(customer.password)
         )
 
         return customerRepository.save(customerSaved)
