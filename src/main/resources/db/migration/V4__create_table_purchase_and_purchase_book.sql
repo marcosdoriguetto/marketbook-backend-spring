@@ -1,4 +1,4 @@
-create table purchase(
+create table IF NOT EXISTS purchase(
     id int auto_increment primary key,
     customer_id int not null,
     nfe varchar(255),
@@ -6,7 +6,7 @@ create table purchase(
     FOREIGN KEY (customer_id) REFERENCES customer(id)
 );
 
-create table purchase_book(
+create table IF NOT EXISTS purchase_book(
     purchase_id int not null,
     book_id int not null,
     FOREIGN KEY (purchase_id) REFERENCES purchase(id),

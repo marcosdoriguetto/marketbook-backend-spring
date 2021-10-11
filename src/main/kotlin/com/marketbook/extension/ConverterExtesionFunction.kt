@@ -12,10 +12,21 @@ import com.marketbook.model.BookModel
 import com.marketbook.model.CustomerModel
 
 fun PostCustomerRequest.toCustomerModel(): CustomerModel =
-    CustomerModel(name = this.name, email = this.email, status = CustomerStatus.ACTIVE)
+    CustomerModel(
+        name = this.name,
+        email = this.email,
+        password = this.password,
+        status = CustomerStatus.ACTIVE
+    )
 
 fun PutCustomerRequest.toCustomerModel(previousCustomer: CustomerModel): CustomerModel =
-    CustomerModel(id = previousCustomer.id, name = this.name, email = this.email, status = previousCustomer.status)
+    CustomerModel(
+        id = previousCustomer.id,
+        name = this.name,
+        email = this.email,
+        password = previousCustomer.password,
+        status = previousCustomer.status
+    )
 
 fun PostBookRequest.toBookModel(customer: CustomerModel): BookModel {
     return BookModel(

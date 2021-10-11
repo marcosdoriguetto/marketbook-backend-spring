@@ -2,6 +2,7 @@ package com.marketbook.service
 
 import com.marketbook.enums.CustomerStatus
 import com.marketbook.enums.Errors
+import com.marketbook.enums.Profile
 import com.marketbook.exception.NotFoundException
 import com.marketbook.model.CustomerModel
 import com.marketbook.repository.CustomerRepository
@@ -24,8 +25,13 @@ class CustomerService(
         customerRepository.findById(id).orElseThrow{ NotFoundException(Errors.ML201.message.format(id), Errors.ML201.code) }
 
     //POST
-    fun createCustomer(customer: CustomerModel) =
-        customerRepository.save(customer)
+    fun createCustomer(customer: CustomerModel): CustomerModel {
+        val customerSaved = customer.copy(
+            roles = setOf(Profile.CUSTOMER)
+        )
+
+        return customerRepository.save(customerSaved)
+    }
 
     //PUT
     fun updateCustomer(customer: CustomerModel) {
