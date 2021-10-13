@@ -3,7 +3,9 @@ package com.marketbook.controller
 import com.marketbook.controller.request.PostBookRequest
 import com.marketbook.controller.request.PutBookRequest
 import com.marketbook.controller.response.BookResponse
+import com.marketbook.controller.response.PageResponse
 import com.marketbook.extension.toBookModel
+import com.marketbook.extension.toPageResponse
 import com.marketbook.extension.toResponse
 import com.marketbook.service.BookService
 import com.marketbook.service.CustomerService
@@ -21,8 +23,8 @@ class BookController(
     val customerService: CustomerService
 ) {
     @GetMapping
-    fun findAllBooks(@PageableDefault(page = 0, size = 10) pageable: Pageable, @RequestParam name: String?): Page<BookResponse> =
-        bookService.findAll(pageable, name).map{ it.toResponse() }
+    fun findAllBooks(@PageableDefault(page = 0, size = 10) pageable: Pageable, @RequestParam name: String?): PageResponse<BookResponse> =
+        bookService.findAll(pageable, name).map{ it.toResponse() }.toPageResponse()
 
     @GetMapping("/actives")
     fun findActivesBooks(@PageableDefault(page = 0, size = 10) pageable: Pageable): Page<BookResponse> =

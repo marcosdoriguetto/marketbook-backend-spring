@@ -6,10 +6,12 @@ import com.marketbook.controller.request.PutBookRequest
 import com.marketbook.controller.request.PutCustomerRequest
 import com.marketbook.controller.response.BookResponse
 import com.marketbook.controller.response.CustomerResponse
+import com.marketbook.controller.response.PageResponse
 import com.marketbook.enums.BookStatus
 import com.marketbook.enums.CustomerStatus
 import com.marketbook.model.BookModel
 import com.marketbook.model.CustomerModel
+import org.springframework.data.domain.Page
 
 fun PostCustomerRequest.toCustomerModel(): CustomerModel =
     CustomerModel(
@@ -63,5 +65,14 @@ fun BookModel.toResponse(): BookResponse {
         price = this.price,
         customer = this.customer,
         status = this.status
+    )
+}
+
+fun <T> Page<T>.toPageResponse(): PageResponse<T> {
+    return PageResponse(
+        this.content,
+        this.totalElements,
+        this.totalPages,
+        this.number
     )
 }
