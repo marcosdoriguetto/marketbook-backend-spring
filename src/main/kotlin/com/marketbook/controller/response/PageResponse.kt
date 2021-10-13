@@ -4,6 +4,6 @@ data class PageResponse<T>(
     var item: List<T>,
     var totalItems: Long,
     var totalPages: Int,
-    var currentPages: Int
+    var currentPage: Int
 )
 
