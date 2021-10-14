@@ -3,8 +3,7 @@ package com.marketbook.service
 import com.marketbook.enums.CustomerStatus
 import com.marketbook.enums.Role
 import com.marketbook.exception.NotFoundException
-import com.marketbook.model.BookModel
-import com.marketbook.model.CustomerModel
+import com.marketbook.mocks.mockCustomer
 import com.marketbook.repository.CustomerRepository
 import io.mockk.every
 import io.mockk.impl.annotations.InjectMockKs
@@ -16,7 +15,6 @@ import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
-import java.math.BigDecimal
 import java.util.*
 
 @ExtendWith(MockKExtension::class)
@@ -168,20 +166,4 @@ class CustomerServiceTest {
 
         verify(exactly = 1) { customerRepository.existsByEmail(any()) }
     }
-
-    private val mockCustomer = CustomerModel(
-        id = 1,
-        name = "teste",
-        email = "${java.util.UUID.randomUUID()}@email.com",
-        status = CustomerStatus.ACTIVE,
-        password = "teste",
-        roles = setOf(Role.CUSTOMER)
-    )
-
-    private val mockBooksCustomer = BookModel(
-        id = 1,
-        name = "teste",
-        price = BigDecimal(1.11),
-        customer = mockCustomer
-    )
 }
