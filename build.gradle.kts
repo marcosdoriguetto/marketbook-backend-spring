@@ -31,6 +31,9 @@ dependencies {
 	implementation("org.flywaydb:flyway-core:7.14.0")
 	runtimeOnly("mysql:mysql-connector-java")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
+	testImplementation("org.junit.jupiter:junit-jupiter-api:5.8.0")
+	testImplementation("io.mockk:mockk:1.12.0")
+
 }
 
 tasks.withType<KotlinCompile> {
