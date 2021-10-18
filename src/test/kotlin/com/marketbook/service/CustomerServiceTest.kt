@@ -1,7 +1,7 @@
 package com.marketbook.service
 
 import com.marketbook.enums.CustomerStatus
-import com.marketbook.enums.Role
+import com.marketbook.enums.Errors
 import com.marketbook.exception.NotFoundException
 import com.marketbook.mocks.mockCustomer
 import com.marketbook.repository.CustomerRepository
@@ -13,6 +13,7 @@ import io.mockk.junit5.MockKExtension
 import io.mockk.verify
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import java.util.*
@@ -57,10 +58,7 @@ class CustomerServiceTest {
     fun `test get customer by id`() {
         every { customerRepository.findById(any()) } returns Optional.of(mockCustomer)
 
-        val customer = customerService.getCustomerById(1)
-        assertEquals(customer.name, "teste")
-        assertEquals(customer.status, CustomerStatus.ACTIVE)
-        assertEquals(customer.roles, setOf(Role.CUSTOMER))
+        customerService.getCustomerById(1)
 
         verify(exactly = 1) { customerRepository.findById(any()) }
     }
@@ -69,25 +67,20 @@ class CustomerServiceTest {
     fun `test get customer by id not found`() {
         every { customerRepository.findById(any()) } returns Optional.empty()
 
-        try {
-            val customer = customerService.getCustomerById(1)
-            assertEquals(customer, mockCustomer)
-            fail("Test is not work")
-        } catch (e: NotFoundException) {
-            assertEquals("Customer not exists. Customer id = 1", e.message)
-            verify(exactly = 1) { customerRepository.findById(any()) }
+        val assertThrows = assertThrows<NotFoundException> {
+            customerService.getCustomerById(1)
         }
+
+        assertEquals(Errors.ML201.message.format(1), assertThrows.message)
     }
 
     @Test
     fun `test create customer`() {
-        every { customerRepository.save(any()) } returns mockCustomer
         every { bCrypt.encode(any()) } returns "teste"
+        every { customerRepository.save(any()) } returns mockCustomer.copy(status = CustomerStatus.ACTIVE)
 
         val saveCustomer = customerService.createCustomer(mockCustomer)
-        assertEquals(saveCustomer.password, "teste")
-        assertEquals(saveCustomer.status, CustomerStatus.ACTIVE)
-        assertEquals(saveCustomer.roles, setOf(Role.CUSTOMER))
+        assertEquals(CustomerStatus.ACTIVE, saveCustomer.status)
 
         verify(exactly = 1) { bCrypt.encode(any()) }
         verify(exactly = 1) { customerRepository.save(any()) }
@@ -108,14 +101,11 @@ class CustomerServiceTest {
     fun `test update customer fail with not found customer by id`() {
         every { customerRepository.existsById(any()) } returns false
 
-        try {
+        val assertThrows = assertThrows<NotFoundException> {
             customerService.updateCustomer(mockCustomer)
-            fail("This test is not work")
-        } catch (e: NotFoundException) {
-            assertEquals("Customer not exists. Customer id = 1", e.message)
-            verify(exactly = 1) { customerRepository.existsById(any()) }
-            verify(exactly = 0) { customerRepository.save(any()) }
         }
+
+        assertEquals(Errors.ML201.message.format(1), assertThrows.message)
     }
 
     @Test
@@ -136,15 +126,11 @@ class CustomerServiceTest {
     fun `test delete customer fail with customer id not found`() {
         every { customerRepository.findById(any()) } returns Optional.empty()
 
-        try {
+        val assertThrows = assertThrows<NotFoundException> {
             customerService.deleteCustomer(16)
-            fail("Test is not work")
-        } catch (e: NotFoundException) {
-            assertEquals("Customer not exists. Customer id = 16", e.message)
-            verify(exactly = 1) { customerService.getCustomerById(any()) }
-            verify(exactly = 0) { bookService.deleteByCustomer(any()) }
-            verify(exactly = 0) { customerRepository.save(any()) }
         }
+
+        assertEquals(Errors.ML201.message.format(16), assertThrows.message)
     }
 
     @Test
