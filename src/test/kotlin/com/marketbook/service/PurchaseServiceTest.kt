@@ -63,7 +63,7 @@ class PurchaseServiceTest {
 
     @Test
     fun `test create purchase fail with book status other than active`() {
-        val booksPurchase = mutableListOf(mockBook, mockBookSold, mockBook, mockBookCanceled)
+        val booksPurchase = mutableListOf(mockBook, mockBookSold, mockBook, mockBookDeleted)
         val purchase = mockPurchase.copy(books = booksPurchase)
 
         val assertThrows = assertThrows<BadRequestException> {

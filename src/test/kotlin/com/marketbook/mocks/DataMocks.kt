@@ -29,7 +29,7 @@ val mockBook = BookModel(
 )
 
 val mockBookSold = BookModel(
-    id = 1,
+    id = 2,
     name = "teste",
     price = BigDecimal(1.11),
     customer = mockCustomer,
@@ -37,11 +37,19 @@ val mockBookSold = BookModel(
 )
 
 val mockBookCanceled = BookModel(
-    id = 1,
+    id = 3,
     name = "teste",
     price = BigDecimal(1.11),
     customer = mockCustomer,
     status = BookStatus.CANCELED
+)
+
+val mockBookDeleted = BookModel(
+    id = 3,
+    name = "teste",
+    price = BigDecimal(1.11),
+    customer = mockCustomer,
+    status = BookStatus.DELETED
 )
 
 val mockPurchase = PurchaseModel(
@@ -52,3 +60,5 @@ val mockPurchase = PurchaseModel(
     price = BigDecimal(111),
     createAt = LocalDateTime.now()
 )
+
+val mockMutableIterable: MutableIterable<BookModel> = mutableListOf(mockBook, mockBookSold)
